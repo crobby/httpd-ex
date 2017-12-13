@@ -34,8 +34,8 @@
         "ports": [
           {
             "name": "web",
-            "port": 8080,
-            "targetPort": 8080
+            "port": 8443,
+            "targetPort": 8443
           }
         ],
         "selector": {
@@ -54,6 +54,10 @@
         "to": {
           "kind": "Service",
           "name": "${NAME}"
+        },
+        "tls": {
+          "insecureEdgeTerminationPolicy": "Redirect",
+          "termination": "passthrough"
         }
       }
     },
@@ -174,8 +178,11 @@
                 "image": " ",
                 "ports": [
                   {
+                    "containerPort": 8443
+                  },
+                  {
                     "containerPort": 8080
-                  }
+                  }                  
                 ],
                 "readinessProbe": {
                   "timeoutSeconds": 3,
@@ -239,12 +246,13 @@
       "displayName": "Git Repository URL",
       "description": "The URL of the repository with your application source code.",
       "required": true,
-      "value": "https://github.com/openshift/httpd-ex.git"
+      "value": "https://github.com/jwforres/httpd-ex.git"
     },
     {
       "name": "SOURCE_REPOSITORY_REF",
       "displayName": "Git Reference",
-      "description": "Set this to a branch name, tag or other ref of your repository if you are not using the default branch."
+      "description": "Set this to a branch name, tag or other ref of your repository if you are not using the default branch.",
+      "value": "extension-example"
     },
     {
       "name": "CONTEXT_DIR",
